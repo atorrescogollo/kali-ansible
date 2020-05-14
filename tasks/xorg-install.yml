@@ -1,0 +1,27 @@
+---
+- name: Install Xorg, and XRDP
+  become: yes
+  package:
+    name:
+      - "xorg"
+      - "xrdp"
+  notify:
+    - XRDP Restart
+
+- name: Add xrdp user to ssl-cert
+  become: yes
+  user:
+    name: xrdp
+    groups:
+      - ssl-cert
+      - xrdp
+    append: yes
+  notify:
+    - XRDP Restart
+
+- name: Configure Xorg
+  become: yes
+  shell:
+    cmd: |
+      Xorg -configure && mv /root/xorg.conf.new /etc/X11/xorg.conf
+    creates: /etc/X11/xorg.conf

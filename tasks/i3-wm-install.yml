@@ -1,0 +1,3 @@
+- name: Install i3
+  package:
+    name: i3

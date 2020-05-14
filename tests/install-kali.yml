@@ -1,0 +1,5 @@
+---
+- name: Install kali
+  hosts: kali
+  roles:
+    - role: kali-ansible

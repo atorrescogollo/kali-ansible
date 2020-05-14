@@ -1,0 +1,24 @@
+---
+- name: Import vaulted vars
+  include_vars:
+    file: vars/vaulted_vars.yml
+  when: usevault|bool
+
+- name: Upgrade all packages to the latest version
+  become: yes
+  apt:
+    name: "*"
+    state: latest
+    update_cache: yes
+
+- name: Install and configure Xorg
+  include_tasks: xorg-install.yml
+
+- name: "Install and configure {{windowmanager}}"
+  include_tasks: "{{windowmanager}}-wm-install.yml"
+
+- name: "Create user {{user}}"
+  become: yes
+  user:
+    name: "{{user}}"
+    password: "{{password|string|password_hash('sha512')}}"

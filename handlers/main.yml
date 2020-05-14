@@ -1,0 +1,7 @@
+---
+- name: XRDP Restart
+  become: yes
+  systemd:
+    name: xrdp
+    enabled: yes
+    state: restarted
